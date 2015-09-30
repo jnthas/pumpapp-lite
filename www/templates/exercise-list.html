@@ -1,0 +1,21 @@
+<ion-view view-title="Minha Ficha" cache-view="false">
+  <ion-nav-buttons side="secondary">  
+    <button class="button" ui-sref="new">
+
+      <i class="icon ion-plus-circled"></i>
+    </button>
+  </ion-nav-buttons>
+  
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="exercise in exercises" href="#/exercises/{{exercise.doc._id}}" class="item-icon-right" on-hold="remove(exercise.doc._id)">
+        <h2><span class="badge">{{exercise.doc.order}}</span>{{exercise.doc.name}}</h2>
+        <p><b>Séries:</b> {{exercise.doc.sets}}, <b>Carga:</b> {{exercise.doc.weight}}, <b>Reps:</b> {{exercise.doc.reps}}</p>
+        
+        
+        
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  
+</ion-view>
