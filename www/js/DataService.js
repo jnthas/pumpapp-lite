@@ -1,26 +1,10 @@
 (function(module) {
   
-  module.service('DataService', function() {
+  module.service('DataService', function($q) {
     
     var localDB = new PouchDB('pumpdb');
     
-    var exercises = [
-      {order: 1,
-       name: 'Remada Alta',
-       weight: 10,
-       sets: 3,
-       reps: 12,
-       obs: 'observation test for exercise #1'},
-      {order: 2,
-       name: 'Supino inclinado',
-       weight: 20,
-       sets: 3,
-       reps: 8,
-       obs: ''}
-    ];
-    
-    
-    function getAll(callback) {
+    function getAll() {
       return localDB.allDocs({include_docs: true, descending: true});
     }
     
@@ -28,7 +12,7 @@
       return localDB.get(id);
     }
     
-    function saveOrUpdate(exercise, callback) {
+    function saveOrUpdate(exercise) {
       if (!exercise._id) {
         exercise['_id'] = "P" + new Date().getTime();
       }
@@ -36,9 +20,15 @@
     }
     
     function remove(exerciseId) {
+      deferred = $q.defer();
       localDB.get(exerciseId).then(function (doc) {
-        return localDB.remove(doc);
+        return localDB.remove(doc).then(function () {
+          deferred.resolve();
+        });
+      }).catch(function () {
+          deferred.reject();
       });
+      return deferred.promise;
     }
     
     

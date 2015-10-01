@@ -1,6 +1,6 @@
 (function(module) {
   
-  module.controller('ExerciseController', function($scope, exercise, DataService, $ionicPopup) {
+  module.controller('ExerciseController', function($scope, exercise, DataService, $ionicPopup, $state) {
     
     var showAlert = function () {
       $ionicPopup.alert({
@@ -13,7 +13,8 @@
     
     $scope.save = function () {
       DataService.saveOrUpdate(exercise).then(function () {
-        showAlert();
+        //showAlert();
+        $state.go('list');
       });
     };
     

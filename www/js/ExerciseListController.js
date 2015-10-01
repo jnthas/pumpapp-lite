@@ -14,8 +14,9 @@
     $scope.remove = function (id) {
       showConfirm().then(function (res) {
         if (res) {
-          console.log(id);
-          DataService.remove(id);
+          DataService.remove(id).then(function () {
+            removeFromScopeArray(id);
+          });
           //$window.location.reload(true);
         } 
       });
@@ -25,6 +26,14 @@
       return exercises.rows.sort(function (a, b) {
         return parseInt(a.doc.order) - parseInt(b.doc.order)
       });
+    }
+    
+    function removeFromScopeArray(id) {
+      for(var i = 0; i < $scope.exercises.length; i++) {
+        if ($scope.exercises[i].id === id) {
+          $scope.exercises.splice(i, 1);
+        }
+      }
     }
 
   });
